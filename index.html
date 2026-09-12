@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Haider Jalil — Mechanical Engineering</title>
+<meta name="description" content="Mechanical engineering portfolio — interactive case studies in machine design, controls, and field construction.">
+<meta name="author" content="Haider Jalil">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#12141c;--card:#181b25;--fg:#eef2f8;--muted:#a3a7b8;--faint:#727788;
+    --rule:rgba(237,233,224,.14);--rule-soft:rgba(237,233,224,.07);
+    --accent:#5b8cff;--accent-soft:rgba(91,140,255,.16);--accent-2:#6fa39d;
+    --chip-bg:rgba(237,233,224,.06);--chip-fg:#c3c7d4;
+    --dot-base:rgba(237,233,224,.16);--dot-glow:rgba(91,140,255,.9);
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 18px 44px rgba(0,0,0,.5);
+    --serif:'Spectral',Georgia,serif;--sans:'IBM Plex Sans',system-ui,-apple-system,sans-serif;
+    --mono:'IBM Plex Mono',ui-monospace,monospace;--maxw:960px;
+  }
+  html[data-theme="light"]{
+    --bg:#eef0ec;--card:#e5e8e0;--fg:#1b1f27;--muted:#565a66;--faint:#8a8f9c;
+    --rule:rgba(27,31,39,.14);--rule-soft:rgba(27,31,39,.07);
+    --accent:#1d4ed8;--accent-soft:rgba(29,78,216,.12);--accent-2:#3f6b66;
+    --chip-bg:rgba(27,31,39,.05);--chip-fg:#4a515c;
+    --dot-base:rgba(27,31,39,.14);--dot-glow:rgba(29,78,216,.85);
+    --shadow:0 1px 2px rgba(20,24,31,.06),0 14px 34px rgba(20,24,31,.10);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;background:var(--bg);transition:background .25s;}
+  body{margin:0;background:transparent;color:var(--fg);font-family:var(--sans);font-size:16px;line-height:1.6;
+    -webkit-font-smoothing:antialiased;transition:color .25s;}
+  body.lock{overflow:hidden;}
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px;}
+
+  /* dot-grid background */
+  #dotGrid{position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;display:block;}
+
+  /* intro veil ("loading") */
+  .veil{position:fixed;inset:0;z-index:100;background:var(--bg);display:flex;align-items:center;justify-content:center;
+    animation:veil-out .8s cubic-bezier(.4,0,.2,1) .7s forwards;}
+  .veil .vmark{font-family:var(--serif);font-size:30px;font-weight:600;color:var(--fg);opacity:0;letter-spacing:-.01em;
+    animation:vmark 1.4s ease forwards;}
+  .veil .vbar{position:absolute;bottom:0;left:0;height:2px;width:0;background:var(--accent);animation:vbar 1s ease forwards;}
+  @keyframes vmark{0%{opacity:0;transform:translateY(8px);}45%{opacity:1;transform:none;}100%{opacity:1;}}
+  @keyframes vbar{to{width:100%;}}
+  @keyframes veil-out{to{opacity:0;visibility:hidden;}}
+
+  /* motion primitives */
+  @keyframes rise-in{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+  .load-in{opacity:0;animation:rise-in .8s cubic-bezier(.22,1,.36,1) forwards;}
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1);}
+  .reveal.is-visible{opacity:1;transform:none;}
+
+  /* nav */
+  nav{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--bg) 82%,transparent);
+    backdrop-filter:blur(10px);border-bottom:1px solid var(--rule-soft);}
+  .nav-in{max-width:var(--maxw);margin:0 auto;padding:12px 24px;display:flex;align-items:center;gap:20px;}
+  .nav-name{font-family:var(--serif);font-weight:600;font-size:18px;letter-spacing:-.01em;}
+  .nav-links{margin-left:auto;display:flex;gap:18px;align-items:center;}
+  .nav-links a{font-size:14px;color:var(--muted);transition:color .15s;}
+  .nav-links a:hover{color:var(--fg);}
+  .theme{display:flex;border:1px solid var(--rule);border-radius:20px;overflow:hidden;}
+  .theme button{font-family:var(--mono);font-size:10px;letter-spacing:.04em;background:transparent;border:none;
+    color:var(--faint);padding:5px 8px;cursor:pointer;transition:all .15s;}
+  .theme button.on{background:var(--fg);color:var(--bg);}
+
+  /* ===== landing ===== */
+  .landing{min-height:calc(100svh - 49px);display:flex;flex-direction:column;justify-content:center;
+    position:relative;padding:40px 0 70px;}
+  .landing-inner{display:grid;grid-template-columns:auto 1fr;gap:52px;align-items:center;}
+  .portrait{position:relative;margin:0;}
+  .portrait-frame{width:300px;height:384px;border:1px solid var(--rule);border-radius:8px;background:var(--card);
+    overflow:hidden;display:flex;align-items:center;justify-content:center;color:var(--faint);
+    font-family:var(--mono);font-size:11px;text-align:center;padding:18px;line-height:1.7;}
+  .portrait-frame img{width:100%;height:100%;object-fit:cover;}
+  .portrait-label{position:absolute;left:-24px;bottom:14px;writing-mode:vertical-rl;transform:rotate(180deg);
+    font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--faint);}
+  .eyebrow{font-family:var(--mono);font-size:12.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);}
+  .name{font-family:var(--serif);font-weight:700;font-size:78px;line-height:.98;letter-spacing:-.01em;margin:16px 0 0;}
+  .accent-rule{width:66px;height:3px;background:var(--accent);border-radius:2px;margin:24px 0 0;}
+  .tagline{font-size:20px;color:var(--muted);margin:24px 0 0;max-width:40ch;line-height:1.5;}
+  .seeking-pill{display:inline-flex;align-items:center;gap:10px;margin-top:26px;border:1px solid var(--accent);
+    color:var(--accent);border-radius:24px;padding:8px 18px;font-size:14px;font-weight:500;}
+  .seeking-pill .pdot{width:7px;height:7px;border-radius:50%;background:var(--accent);}
+  .hero-sep{height:1px;background:var(--rule);margin:30px 0 0;max-width:520px;}
+  .hero-links{display:flex;flex-wrap:wrap;gap:26px;margin-top:20px;}
+  .hero-links a{display:inline-flex;align-items:center;gap:8px;font-size:15px;color:var(--muted);transition:color .15s;}
+  .hero-links a:hover{color:var(--fg);}
+  .hero-links svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;}
+  .hero-links .gh svg{fill:currentColor;stroke:none;}
+  .scroll-cue{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);font-family:var(--mono);
+    font-size:10.5px;letter-spacing:.12em;color:var(--faint);display:flex;flex-direction:column;align-items:center;gap:5px;
+    transition:opacity .4s;}
+  .scroll-cue .chev{animation:cue 1.8s ease-in-out infinite;}
+  @keyframes cue{0%,100%{transform:translateY(0);}50%{transform:translateY(5px);}}
+
+  /* ===== about (scroll illumination) ===== */
+  .about{min-height:100svh;display:flex;align-items:center;padding:90px 0;}
+  .about .lead-label{font-family:var(--mono);font-size:12px;letter-spacing:.13em;text-transform:uppercase;
+    color:var(--accent);margin-bottom:26px;}
+  .illum{font-family:var(--serif);font-size:33px;line-height:1.5;font-weight:500;max-width:660px;color:var(--fg);margin:0;}
+  .illum span{opacity:.09;}
+
+  /* section */
+  section{padding:30px 0;}
+  .sec-head{display:flex;align-items:baseline;gap:12px;margin-bottom:22px;}
+  .sec-num{font-family:var(--mono);font-size:13px;color:var(--accent);}
+  h2{font-family:var(--mono);font-size:12.5px;font-weight:500;letter-spacing:.12em;margin:0;text-transform:uppercase;color:var(--muted);}
+  .sec-hint{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--faint);}
+
+  /* cards */
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+  .card{background:var(--card);border:1px solid var(--rule-soft);border-radius:12px;padding:22px 22px 18px;
+    cursor:pointer;position:relative;transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease;
+    opacity:0;transform:translateY(14px);}
+  .card.in{opacity:1;transform:none;}
+  .card:hover{transform:translateY(-4px);border-color:var(--accent);box-shadow:var(--shadow);}
+  .card .badge{position:absolute;top:16px;right:16px;font-family:var(--mono);font-size:9.5px;letter-spacing:.05em;
+    color:var(--accent);background:var(--accent-soft);border-radius:20px;padding:3px 9px;text-transform:uppercase;}
+  .card h3{font-family:var(--serif);font-size:22px;font-weight:600;letter-spacing:-.01em;margin:0 6px 4px 0;max-width:24ch;}
+  .card .ctx{font-family:var(--mono);font-size:12px;color:var(--faint);margin:0 0 12px;}
+  .card .blurb{color:var(--muted);font-size:14.5px;margin:0 0 16px;}
+  .card .chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;}
+  .chip{font-family:var(--mono);font-size:10.5px;color:var(--chip-fg);background:var(--chip-bg);border-radius:4px;padding:3px 7px;}
+  .card .open{font-size:13px;color:var(--accent);font-weight:500;display:inline-flex;align-items:center;gap:6px;}
+  .card .open .ar{transition:transform .18s;}
+  .card:hover .open .ar{transform:translateX(4px);}
+
+  /* contact */
+  .contact-links{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:6px;}
+  .contact-links a{font-size:15px;color:var(--muted);border-bottom:1px solid var(--rule);padding-bottom:1px;transition:.15s;}
+  .contact-links a:hover{color:var(--fg);border-color:var(--accent);}
+  .contact p{color:var(--muted);max-width:52ch;}
+  footer{padding:32px 0 60px;border-top:1px solid var(--rule-soft);margin-top:20px;font-family:var(--mono);
+    font-size:12px;color:var(--faint);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+
+  /* modal */
+  .overlay{position:fixed;inset:0;z-index:50;background:rgba(6,7,10,.62);backdrop-filter:blur(3px);
+    opacity:0;pointer-events:none;transition:opacity .2s;display:flex;justify-content:center;align-items:flex-start;
+    padding:40px 20px;overflow-y:auto;}
+  .overlay.open{opacity:1;pointer-events:auto;}
+  .modal{background:var(--bg);border:1px solid var(--rule);border-radius:14px;max-width:780px;width:100%;
+    box-shadow:var(--shadow);transform:translateY(16px) scale(.99);transition:transform .22s;overflow:hidden;}
+  .overlay.open .modal{transform:none;}
+  .m-head{padding:26px 30px 0;position:relative;}
+  .m-close{position:absolute;top:20px;right:22px;width:34px;height:34px;border-radius:50%;border:1px solid var(--rule);
+    background:var(--card);color:var(--muted);font-size:18px;cursor:pointer;line-height:1;transition:.15s;}
+  .m-close:hover{color:var(--fg);border-color:var(--accent);}
+  .m-eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);}
+  .m-head h3{font-family:var(--serif);font-size:28px;font-weight:600;letter-spacing:-.01em;margin:8px 44px 4px 0;}
+  .m-ctx{font-family:var(--mono);font-size:12.5px;color:var(--faint);}
+  .m-chips{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0 4px;}
+  .tabs{display:flex;gap:4px;padding:18px 30px 0;flex-wrap:wrap;border-bottom:1px solid var(--rule-soft);}
+  .tabs button{background:transparent;border:none;border-bottom:2px solid transparent;font-family:var(--sans);
+    font-size:13.5px;font-weight:500;color:var(--muted);padding:8px 10px;cursor:pointer;margin-bottom:-1px;transition:.15s;}
+  .tabs button.on{color:var(--fg);border-color:var(--accent);}
+  .tabs button.tryit{color:var(--accent);}
+  .m-body{padding:22px 30px 30px;}
+  .panel{display:none;}
+  .panel.on{display:block;animation:fade .25s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+  .panel p{color:var(--muted);font-size:15.5px;margin:0 0 12px;}
+  .panel p em{color:var(--fg);font-style:normal;font-weight:600;}
+  .note{font-family:var(--mono);font-size:11px;color:var(--faint);background:var(--chip-bg);border-radius:6px;padding:9px 12px;margin-top:6px;}
+  .gallery{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px;}
+  .gtile{border:1px dashed var(--rule);border-radius:8px;background:var(--chip-bg);aspect-ratio:4/3;
+    display:flex;align-items:flex-end;padding:12px;color:var(--faint);font-family:var(--mono);font-size:10.5px;line-height:1.4;}
+
+  /* widget shell */
+  .widget{border:1px solid var(--rule);border-radius:12px;background:var(--card);padding:18px;margin-top:6px;}
+  .widget .wtitle{font-family:var(--serif);font-size:16px;font-weight:600;margin:0 0 2px;}
+  .widget .wsub{font-size:13px;color:var(--muted);margin:0 0 16px;}
+  .controls{display:flex;flex-direction:column;gap:14px;}
+  .ctrl{display:grid;grid-template-columns:110px 1fr 70px;gap:12px;align-items:center;}
+  .ctrl label{font-family:var(--mono);font-size:11px;color:var(--muted);}
+  .ctrl input[type=range]{width:100%;accent-color:var(--accent);}
+  .ctrl .val{font-family:var(--mono);font-size:12px;color:var(--fg);text-align:right;}
+  .ctrl select{font-family:var(--mono);font-size:12px;padding:5px 8px;border-radius:6px;border:1px solid var(--rule);
+    background:var(--bg);color:var(--fg);grid-column:2/4;}
+  canvas.plot{width:100%;display:block;border-radius:8px;background:var(--bg);border:1px solid var(--rule);margin-top:16px;}
+  .readouts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px;}
+  .ro{background:var(--bg);border:1px solid var(--rule);border-radius:8px;padding:10px 12px;}
+  .ro .k{font-family:var(--mono);font-size:9.5px;letter-spacing:.04em;color:var(--faint);text-transform:uppercase;}
+  .ro .v{font-size:18px;font-weight:700;letter-spacing:-.02em;margin-top:2px;}
+  .verdict{margin-top:14px;font-family:var(--mono);font-size:12px;padding:8px 12px;border-radius:8px;}
+  .verdict.ok{background:color-mix(in srgb,var(--accent-2) 18%,transparent);color:var(--accent-2);}
+  .verdict.warn{background:rgba(245,158,11,.16);color:#e0a326;}
+  .verdict.bad{background:rgba(220,38,38,.18);color:#ef6a6a;}
+  .toggle-row{display:flex;align-items:center;gap:10px;margin-top:2px;}
+  .toggle-row input{width:16px;height:16px;accent-color:var(--accent);}
+  .toggle-row label{font-size:13.5px;color:var(--fg);}
+  .status{font-family:var(--mono);font-size:12px;margin-top:12px;display:flex;gap:18px;flex-wrap:wrap;}
+  .status b{color:var(--fg);font-weight:500;}
+
+  @media (max-width:760px){
+    .landing-inner{grid-template-columns:1fr;gap:28px;}
+    .portrait-frame{width:100%;max-width:340px;height:300px;}
+    .portrait-label{display:none;}
+    .name{font-size:50px;}
+    .illum{font-size:24px;}
+    .grid{grid-template-columns:1fr;}
+    .nav-links a:not(.persist){display:none;}
+    .ctrl{grid-template-columns:90px 1fr 56px;}
+    .readouts{grid-template-columns:1fr 1fr;}
+    .m-head,.tabs,.m-body{padding-left:20px;padding-right:20px;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *,*::before,*::after{animation:none!important;transition:none!important;}
+    .veil{display:none;}
+    .reveal,.load-in,.card{opacity:1!important;transform:none!important;}
+    .illum span{opacity:1!important;}
+  }
+</style>
+</head>
+<body>
+
+<canvas id="dotGrid" aria-hidden="true"></canvas>
+
+<div class="veil" id="veil"><span class="vmark">Haider Jalil</span><span class="vbar"></span></div>
+
+<nav>
+  <div class="nav-in">
+    <a href="#top" class="nav-name">Haider Jalil</a>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#projects">Work</a>
+      <a href="#contact">Contact</a>
+      <div class="theme" id="theme">
+        <button data-mode="auto">AUTO</button>
+        <button data-mode="light">LIGHT</button>
+        <button data-mode="dark" class="on">DARK</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div id="top" class="wrap">
+
+  <!-- ===== LANDING ===== -->
+  <header class="landing">
+    <div class="landing-inner">
+      <figure class="portrait load-in" style="animation-delay:.9s">
+        <span class="portrait-label">RIO GRANDE VALLEY, TX</span>
+        <div class="portrait-frame"><!-- swap in: <img src="headshot.jpg" alt="Haider Jalil"> -->[ your photo here<br>portrait / 3:4 ]</div>
+      </figure>
+      <div class="hero-text">
+        <div class="eyebrow load-in" style="animation-delay:1.0s">B.S. Mechanical Engineering · New Mexico State University</div>
+        <h1 class="name load-in" style="animation-delay:1.1s">Haider Jalil</h1>
+        <div class="accent-rule load-in" style="animation-delay:1.2s"></div>
+        <p class="tagline load-in" style="animation-delay:1.3s">Machine design, structural analysis, and field construction — I design it, run the numbers, and build it.</p>
+        <span class="seeking-pill load-in" style="animation-delay:1.4s"><span class="pdot"></span> Seeking early-career roles in energy &amp; field engineering</span>
+        <div class="hero-sep load-in" style="animation-delay:1.5s"></div>
+        <div class="hero-links load-in" style="animation-delay:1.6s">
+          <a class="gh" href="#" data-fill="github"><svg viewBox="0 0 24 24"><path d="M12 .5A11.5 11.5 0 0 0 .5 12a11.5 11.5 0 0 0 7.86 10.94c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.34-1.3-1.7-1.3-1.7-1.06-.72.08-.71.08-.71 1.17.08 1.79 1.2 1.79 1.2 1.04 1.79 2.73 1.27 3.4.97.1-.76.41-1.27.74-1.56-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.69 5.39-5.25 5.68.42.36.8 1.08.8 2.18v3.23c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5z"/></svg> GitHub</a>
+          <a href="#" data-fill="linkedin"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 10v7M7 7v.01M11 17v-4a2 2 0 0 1 4 0v4M11 10v7"/></svg> LinkedIn</a>
+          <a href="#" data-fill="email"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg> Email</a>
+          <a href="#" data-fill="resume"><svg viewBox="0 0 24 24"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4"/></svg> Résumé</a>
+        </div>
+      </div>
+    </div>
+    <a href="#about" class="scroll-cue" id="scrollCue">SCROLL<span class="chev">↓</span></a>
+  </header>
+
+  <!-- ===== ABOUT (scroll illumination) ===== -->
+  <section id="about" class="about">
+    <div>
+      <div class="lead-label">About</div>
+      <p class="illum">I'm a senior mechanical engineering student at New Mexico State University, graduating in 2027. Right now I'm a construction management intern on a federal border-infrastructure program in the Rio Grande Valley, where I build the project-controls tools a field crew runs on and analyze the anchor systems that hold the barrier in the water. My work runs from machine design and structural analysis to controls and real-world execution. I like problems that start on a drawing and end in something built.</p>
+    </div>
+  </section>
+
+  <!-- ===== CASE STUDIES ===== -->
+  <section id="projects">
+    <div class="sec-head"><span class="sec-num">01</span><h2>Case studies</h2><span class="sec-hint">tap any card</span></div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <!-- ===== CONTACT ===== -->
+  <section id="contact" class="contact reveal">
+    <div class="sec-head"><span class="sec-num">02</span><h2>Get in touch</h2></div>
+    <p>Open to full-time and internship conversations in energy and field engineering. Email is fastest.</p>
+    <div class="contact-links">
+      <a href="#" data-fill="email">[you@email.com]</a>
+      <a href="#" data-fill="linkedin">LinkedIn</a>
+      <a href="#" data-fill="github">GitHub</a>
+      <a href="#" data-fill="resume">Résumé (PDF)</a>
+    </div>
+  </section>
+
+  <footer><span>© 2026 Haider Jalil</span><span>Rio Grande Valley, TX</span></footer>
+</div>
+
+<div class="overlay" id="overlay"><div class="modal" id="modal" role="dialog" aria-modal="true"></div></div>
+
+<script>
+/* ---------------- content ---------------- */
+var PROJECTS = [
+  {id:"crane",title:"Motorized Lifting Crane",eyebrow:"Machine Design",ctx:"Team project · ME 425 · NMSU",widget:"beam",
+    blurb:"A fully autonomous crane built to lift a 2 lb load 12 inches on a $100 budget. I owned the structural analysis.",
+    chips:["SolidWorks/CAD","structural analysis","machine design","hand calcs"],
+    tabs:[["Overview","<p>For our ME 425 machine design course, the team designed and built a fully motorized crane to raise a 2 lb load 12 inches vertically — autonomously, powered by an electric motor, on a $100 department budget.</p>"],
+      ["My role","<p>I <em>owned the engineering analysis</em>. I ran the bending-stress and deflection calculations on the main beam and worked the supporting calcs across the mechanism. Because we sized the beam from scrap stock, those numbers decided whether the material on hand was safe before we committed to the build. I also contributed to the mechanical design.</p>"],
+      ["Design","<p>Derrick-style: a hinged arm on a machined steel base plate, raised by a linear actuator, with an RC winch-and-cable handling the lift and power-screw leveling jacks for uneven ground. The build used nine machine elements against a five-element minimum.</p>"],
+      ["Results","<p>The crane met spec — it lifted the full 2 lb load 12 inches with no human contact, and came in under the $100 budget.</p>"]],
+    gallery:["CAD assembly of the crane","Machined base plate + arm in fabrication","Deflection / bending-stress calc sheet","The crane lifting the load on test day"]},
+  {id:"arduino",title:"Autonomous Inventory Robot",eyebrow:"Controls & Embedded",ctx:"Team project · Arduino",widget:"arduino",
+    blurb:"A line-following robot that measures inventory and reports over Bluetooth. I found and fixed the timing bug that broke it.",
+    chips:["Arduino","C / C++","IR line sensors","ultrasonic","Bluetooth"],
+    tabs:[["Overview","<p>An Arduino robot that follows a line to navigate, measures inventory with an ultrasonic sensor, and streams readings to a laptop over Bluetooth in real time.</p>"],
+      ["My role","<p>Real-time systems integration and controls. I diagnosed and fixed the core failure mode that made the robot unusable.</p>"],
+      ["Challenge","<p>Adding continuous Bluetooth streaming interfered with sensor timing — navigation went jittery and readings drifted. The microcontroller couldn't service continuous transmission alongside the time-critical sensing loop. I <em>restructured the control loop</em> to make line-tracking and sensing non-negotiable priorities and dropped Bluetooth to checkpoint-only transmission.</p>"],
+      ["Results","<p>That cleared the processing conflict and restored stable navigation and reliable data. Try the demo tab to see the exact tradeoff.</p>"]],
+    gallery:["Robot chassis with sensor array","Line-following on the test track","Control-loop priority diagram","Data landing on the laptop"]},
+  {id:"goblet",title:"Structural-Dynamics Research",eyebrow:"Research · Vibrations",ctx:"Undergraduate Researcher · NMSU + Los Alamos National Lab",widget:null,
+    blurb:"How topology optimization and lattice geometry change the vibration behavior of 3D-printed structures.",
+    chips:["FEA","structural dynamics","topology optimization","additive manufacturing"],
+    tabs:[["Overview","<p>Undergraduate structural-dynamics research at NMSU, in collaboration with Los Alamos National Laboratory: how topology optimization and lattice-cell geometry affect the vibration behavior of an additively-manufactured test article.</p>"],
+      ["My role","<p>[Add your specific contribution — the FEA modeling, the experimental modal testing, or the fabrication.]</p><div class='note'>Only bracket left in this project — tell me your piece and I'll write it.</div>"],
+      ["Approach","<p>Compared finite-element modal predictions against the measured vibration response of printed lattice structures to see how geometry shifts natural frequencies and mode shapes.</p>"],
+      ["Results","<p>[Key finding — e.g., which lattice geometry shifted frequencies most, or how well FEA matched test.]</p>"]],
+    gallery:["Lattice-cell CAD","The printed test article","FEA mode shape","Test rig / measured response"]},
+  {id:"internship",title:"Federal Waterborne Barrier",eyebrow:"Field Engineering · CM",ctx:"Construction Management Intern · Spencer Construction · 2026",widget:null,
+    blurb:"Project-controls tools and anchor-engineering analysis on a large federal infrastructure program.",
+    chips:["Primavera P6","Procore","Excel automation","drawing analysis","procurement"],
+    tabs:[["Overview","<p>Construction-management internship on a large federal border-infrastructure program in the Rio Grande Valley — a barrier held by anchor systems drilled into the riverbed.</p>"],
+      ["My role","<p>Project controls, scheduling, and engineering analysis — building the tools the field team runs on and supporting the engineering side.</p>"],
+      ["Work","<p>I built a master-schedule-driven Excel system that <em>automatically</em> generates the client's required 3- and 8-week lookaheads in their mandated format, plus an RFI tracker with due-date conditional formatting and material-takeoff calculators. On the engineering side, I analyzed anchor-system drawings and specs and identified a sequencing fix that lets mooring chain attach <em>before</em> installation — eliminating a costly, risky post-install dive — and ran supplier and subcontractor cost analyses.</p>"],
+      ["Results","<p>Tools the crew uses daily, and a design change that removes a diving step from the install sequence.</p>"]],
+    gallery:["Lookahead schedule (sanitized)","RFI tracker","Anchor detail (generalized)","Field / marine operations"]},
+  {id:"rocket",title:"Rocket Engine Test Stand",eyebrow:"Structural Design",ctx:"[Course / team · year]",widget:null,
+    blurb:"A stand for static rocket-engine firing, where structure, safety, and reliability drove every decision.",
+    chips:["structural design","fabrication","[instrumentation]"],
+    tabs:[["Overview","<p>Designed and built a test stand for static rocket-engine firing, where structural integrity, safety, and reliability were non-negotiable.</p>"],
+      ["My role","<p>Structural design and fabrication. [Add what you specifically owned.]</p>"],
+      ["Design","<p>[What it measured — thrust / chamber pressure — and the key safety systems that protected operators during a firing.]</p><div class='note'>This one's the thinnest — a few sentences from you and photos will round it out.</div>"],
+      ["Results","<p>[Outcome — what it let the team test, or results from a firing.]</p>"]],
+    gallery:["Test-stand CAD","Fabrication","Instrumentation / load cell","Test day"]}
+];
+
+/* ---------------- render cards ---------------- */
+var grid=document.getElementById('grid');
+PROJECTS.forEach(function(p){
+  var el=document.createElement('div'); el.className='card';
+  el.innerHTML=(p.widget?'<span class="badge">Interactive</span>':'')+
+    '<h3>'+p.title+'</h3><p class="ctx">'+p.ctx+'</p><p class="blurb">'+p.blurb+'</p>'+
+    '<div class="chips">'+p.chips.map(function(c){return '<span class="chip">'+c+'</span>';}).join('')+'</div>'+
+    '<span class="open">'+(p.widget?'Open &amp; try it':'Read case study')+' <span class="ar">&rarr;</span></span>';
+  el.addEventListener('click',function(){openModal(p.id);});
+  grid.appendChild(el);
+});
+var io=new IntersectionObserver(function(en){en.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.12});
+document.querySelectorAll('.card').forEach(function(c,i){c.style.transitionDelay=(i*60)+'ms';io.observe(c);});
+
+/* ---------------- modal ---------------- */
+var overlay=document.getElementById('overlay'),modal=document.getElementById('modal'),cleanup=null;
+function openModal(id){
+  var p=PROJECTS.find(function(x){return x.id===id;}); if(!p)return;
+  var tabsHtml='',panelsHtml='';
+  p.tabs.forEach(function(t,i){tabsHtml+='<button data-i="'+i+'"'+(i===0?' class="on"':'')+'>'+t[0]+'</button>';
+    panelsHtml+='<div class="panel'+(i===0?' on':'')+'" data-i="'+i+'">'+t[1]+'</div>';});
+  var tryIdx=p.tabs.length;
+  if(p.widget){tabsHtml+='<button class="tryit" data-i="'+tryIdx+'">▶ Try it</button>';
+    panelsHtml+='<div class="panel" data-i="'+tryIdx+'"><div id="widget-slot"></div></div>';}
+  var galIdx=p.widget?tryIdx+1:p.tabs.length;
+  var galleryHtml='<div class="panel" data-i="'+galIdx+'"><div class="gallery">'+p.gallery.map(function(g){return '<div class="gtile">'+g+'</div>';}).join('')+'</div></div>';
+  tabsHtml+='<button data-i="'+galIdx+'">Photos</button>';
+  modal.innerHTML='<div class="m-head"><button class="m-close" aria-label="Close">&times;</button>'+
+    '<div class="m-eyebrow">'+p.eyebrow+'</div><h3>'+p.title+'</h3><div class="m-ctx">'+p.ctx+'</div>'+
+    '<div class="m-chips">'+p.chips.map(function(c){return '<span class="chip">'+c+'</span>';}).join('')+'</div></div>'+
+    '<div class="tabs">'+tabsHtml+'</div><div class="m-body">'+panelsHtml+galleryHtml+'</div>';
+  var tabBtns=modal.querySelectorAll('.tabs button'),panels=modal.querySelectorAll('.panel');
+  tabBtns.forEach(function(b){b.addEventListener('click',function(){tabBtns.forEach(function(x){x.classList.remove('on');});
+    b.classList.add('on');var i=b.dataset.i;panels.forEach(function(pn){pn.classList.toggle('on',pn.dataset.i===i);});});});
+  modal.querySelector('.m-close').addEventListener('click',closeModal);
+  if(p.widget==='beam')cleanup=buildBeam(modal.querySelector('#widget-slot'));
+  if(p.widget==='arduino')cleanup=buildArduino(modal.querySelector('#widget-slot'));
+  overlay.classList.add('open');document.body.classList.add('lock');modal.scrollTop=0;overlay.scrollTop=0;
+}
+function closeModal(){overlay.classList.remove('open');document.body.classList.remove('lock');if(cleanup){cleanup();cleanup=null;}}
+overlay.addEventListener('click',function(e){if(e.target===overlay)closeModal();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal();});
+
+/* ---------------- widget: beam ---------------- */
+function buildBeam(root){
+  var MAT={steel:{E:29e6,Sy:36000,name:"Steel"},al:{E:10e6,Sy:40000,name:"Aluminum 6061"}};
+  root.innerHTML='<div class="widget"><p class="wtitle">Main-beam deflection — the analysis I owned</p>'+
+    '<p class="wsub">Drag the load and geometry. The beam is modeled as a cantilever (fixed at the wall, loaded at the tip), b = 1 in.</p>'+
+    '<div class="controls">'+
+      '<div class="ctrl"><label>Load P</label><input type="range" id="b_P" min="1" max="50" step="1" value="10"><span class="val" id="b_Pv"></span></div>'+
+      '<div class="ctrl"><label>Length L</label><input type="range" id="b_L" min="6" max="36" step="1" value="18"><span class="val" id="b_Lv"></span></div>'+
+      '<div class="ctrl"><label>Height h</label><input type="range" id="b_h" min="0.25" max="1.5" step="0.05" value="0.5"><span class="val" id="b_hv"></span></div>'+
+      '<div class="ctrl"><label>Material</label><select id="b_m"><option value="steel">Steel</option><option value="al">Aluminum 6061</option></select></div>'+
+    '</div><canvas class="plot" id="b_c" height="220"></canvas>'+
+    '<div class="readouts"><div class="ro"><div class="k">Max deflection</div><div class="v" id="b_def"></div></div>'+
+      '<div class="ro"><div class="k">Max bending stress</div><div class="v" id="b_str"></div></div>'+
+      '<div class="ro"><div class="k">Factor of safety</div><div class="v" id="b_fos"></div></div></div>'+
+    '<div class="verdict" id="b_v"></div></div>';
+  var cvs=root.querySelector('#b_c'),ctx=cvs.getContext('2d');
+  var els={P:root.querySelector('#b_P'),L:root.querySelector('#b_L'),h:root.querySelector('#b_h'),m:root.querySelector('#b_m')};
+  function draw(){
+    var P=+els.P.value,L=+els.L.value,h=+els.h.value,mat=MAT[els.m.value];
+    var b=1,I=b*Math.pow(h,3)/12,c=h/2,defMax=P*Math.pow(L,3)/(3*mat.E*I),M=P*L,str=M*c/I,fos=mat.Sy/str;
+    root.querySelector('#b_Pv').textContent=P+' lb';root.querySelector('#b_Lv').textContent=L+' in';
+    root.querySelector('#b_hv').textContent=h.toFixed(2)+' in';root.querySelector('#b_def').textContent=defMax.toFixed(3)+' in';
+    root.querySelector('#b_str').textContent=(str/1000).toFixed(1)+' ksi';root.querySelector('#b_fos').textContent=fos.toFixed(1)+'×';
+    var v=root.querySelector('#b_v');
+    if(fos>=1.5){v.className='verdict ok';v.textContent='✓ Holds — '+fos.toFixed(1)+'× safety margin over '+mat.name+' yield.';}
+    else if(fos>=1){v.className='verdict warn';v.textContent='⚠ Marginal — only '+fos.toFixed(1)+'× over yield. Thicken the beam or shorten the arm.';}
+    else{v.className='verdict bad';v.textContent='✗ Fails — bending stress exceeds '+mat.name+' yield. Redesign needed.';}
+    var dpr=window.devicePixelRatio||1,W=cvs.clientWidth,H=220;cvs.width=W*dpr;cvs.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,W,H);
+    var pad=34,x0=pad+16,x1=W-pad,plotW=x1-x0,y0=70,css=getComputedStyle(document.documentElement);
+    var faint=css.getPropertyValue('--faint').trim(),acc=css.getPropertyValue('--accent').trim(),rule=css.getPropertyValue('--rule').trim();
+    ctx.fillStyle=rule;ctx.fillRect(x0-16,y0-38,10,120);ctx.strokeStyle=faint;ctx.lineWidth=1;
+    for(var i=0;i<7;i++){ctx.beginPath();ctx.moveTo(x0-16,y0-38+i*20);ctx.lineTo(x0-6,y0-48+i*20);ctx.stroke();}
+    ctx.strokeStyle=faint;ctx.setLineDash([4,4]);ctx.beginPath();ctx.moveTo(x0,y0);ctx.lineTo(x1,y0);ctx.stroke();ctx.setLineDash([]);
+    var vis=defMax>0?Math.min(90/defMax,4000):0;ctx.strokeStyle=acc;ctx.lineWidth=3;ctx.beginPath();
+    for(var s=0;s<=60;s++){var x=s/60*L,d=P*x*x*(3*L-x)/(6*mat.E*I),px=x0+(x/L)*plotW,py=y0+d*vis;if(s===0)ctx.moveTo(px,py);else ctx.lineTo(px,py);}
+    ctx.stroke();var tipY=y0+defMax*vis;ctx.strokeStyle=acc;ctx.fillStyle=acc;ctx.lineWidth=2;
+    ctx.beginPath();ctx.moveTo(x1,tipY-34);ctx.lineTo(x1,tipY-6);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(x1-5,tipY-13);ctx.lineTo(x1,tipY-5);ctx.lineTo(x1+5,tipY-13);ctx.fill();
+    ctx.fillStyle=faint;ctx.font='11px "IBM Plex Mono", monospace';ctx.fillText('P = '+P+' lb',x1-46,tipY-40);
+    ctx.fillText('deflection ×'+Math.round(vis)+' (visual)',x0,H-10);
+  }
+  Object.keys(els).forEach(function(k){els[k].addEventListener('input',draw);});
+  window.addEventListener('resize',draw);draw();
+  return function(){window.removeEventListener('resize',draw);};
+}
+
+/* ---------------- widget: arduino ---------------- */
+function buildArduino(root){
+  root.innerHTML='<div class="widget"><p class="wtitle">The Bluetooth-vs-sensor bug — and the fix</p>'+
+    '<p class="wsub">The robot follows the line. Turn on continuous Bluetooth streaming and watch tracking break down — that was the bug. Off = checkpoint-only transmission, the fix I shipped.</p>'+
+    '<div class="toggle-row"><input type="checkbox" id="a_bt"><label for="a_bt">Continuous Bluetooth streaming</label></div>'+
+    '<canvas class="plot" id="a_c" height="200"></canvas>'+
+    '<div class="status"><span>Status: <b id="a_st">stable</b></span><span>Dropped readings: <b id="a_dr">0</b></span><span>Mode: <b id="a_md">checkpoint</b></span></div></div>';
+  var cvs=root.querySelector('#a_c'),ctx=cvs.getContext('2d'),bt=root.querySelector('#a_bt');
+  var raf,robotX=0,err=0,dropped=0,frozen=0;
+  bt.addEventListener('change',function(){root.querySelector('#a_md').textContent=bt.checked?'continuous':'checkpoint';});
+  function lineY(x,W){return 100+Math.sin((x/W)*Math.PI*3+0.6)*38;}
+  function frame(){
+    var dpr=window.devicePixelRatio||1,W=cvs.clientWidth,H=200;if(cvs.width!==Math.round(W*dpr)){cvs.width=W*dpr;cvs.height=H*dpr;}
+    ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,W,H);var css=getComputedStyle(document.documentElement);
+    var faint=css.getPropertyValue('--faint').trim(),acc=css.getPropertyValue('--accent').trim(),acc2=css.getPropertyValue('--accent-2').trim(),rule=css.getPropertyValue('--rule').trim();
+    ctx.strokeStyle=rule;ctx.lineWidth=6;ctx.beginPath();for(var x=0;x<=W;x+=6){var y=lineY(x,W);if(x===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);}ctx.stroke();
+    if(!bt.checked){ctx.fillStyle=faint;for(var cx=40;cx<W;cx+=90){ctx.fillRect(cx-1,lineY(cx,W)-14,2,28);}}
+    robotX+=1.6;if(robotX>W)robotX=0;var targetY=lineY(robotX,W);
+    if(bt.checked){if(frozen>0){frozen--;}else{if(Math.random()<0.10){frozen=8;dropped++;root.querySelector('#a_dr').textContent=dropped;}err+=(Math.random()-0.5)*7;err*=0.9;}}else{err*=0.82;}
+    var ry=targetY+err;ctx.fillStyle=bt.checked?acc:acc2;ctx.globalAlpha=0.25;ctx.beginPath();ctx.arc(robotX,ry,10,0,7);ctx.fill();ctx.globalAlpha=1;
+    ctx.fillStyle=bt.checked?acc:acc2;ctx.beginPath();ctx.arc(robotX,ry,6,0,7);ctx.fill();
+    ctx.strokeStyle=bt.checked?acc:acc2;ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(robotX,ry,11,0,7);ctx.stroke();
+    var unstable=bt.checked&&Math.abs(err)>6,st=root.querySelector('#a_st');
+    st.textContent=bt.checked?(unstable?'UNSTABLE — off the line':'jittery'):'stable';
+    st.style.color=bt.checked?(unstable?'#ef6a6a':'#e0a326'):acc2;
+    raf=requestAnimationFrame(frame);
+  }
+  raf=requestAnimationFrame(frame);
+  return function(){cancelAnimationFrame(raf);};
+}
+
+/* ---------------- dot-grid background ---------------- */
+(function(){
+  var canvas=document.getElementById("dotGrid");if(!canvas||!canvas.getContext)return;var ctx=canvas.getContext("2d");
+  var SPACING=25,DOT_RADIUS=1.5,IMPACT_RADIUS=110,MAX_ORBIT=15,SPEED=5,RISE=20,FALL=100;
+  var width=0,height=0,dpr=1,dots=[],mouse={x:-9999,y:-9999},last=null;
+  var reduce=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function cols(){var s=getComputedStyle(document.documentElement);return{base:s.getPropertyValue("--dot-base").trim()||"rgba(200,200,200,.2)",glow:s.getPropertyValue("--dot-glow").trim()||"rgba(91,140,255,.9)"};}
+  function build(){dots=[];var c=Math.ceil(width/SPACING)+1,r=Math.ceil(height/SPACING)+1;for(var i=0;i<c;i++)for(var j=0;j<r;j++)dots.push({bx:i*SPACING,by:j*SPACING,inc:(Math.random()*2-1)*1.3,asc:Math.random()*Math.PI*2,ph:Math.random()*Math.PI*2,a:0});}
+  function resize(){dpr=window.devicePixelRatio||1;width=window.innerWidth;height=window.innerHeight;canvas.width=Math.round(width*dpr);canvas.height=Math.round(height*dpr);canvas.style.width=width+"px";canvas.style.height=height+"px";ctx.setTransform(dpr,0,0,dpr,0,0);build();draw(0);}
+  function step(dt){for(var k=0;k<dots.length;k++){var d=dots[k],dx=d.bx-mouse.x,dy=d.by-mouse.y,dist=Math.sqrt(dx*dx+dy*dy),prox=dist<IMPACT_RADIUS?1-dist/IMPACT_RADIUS:0,t=prox*prox,rate=t>d.a?RISE:FALL;d.a+=(t-d.a)*Math.min(1,dt*rate);if(d.a<0.0008)d.a=0;}}
+  function orbit(d,time){var r=d.a*MAX_ORBIT;if(r<=0)return{dx:0,dy:0,depth:0};var a=d.ph+time*SPEED,ox=r*Math.cos(a),oy=r*Math.sin(a),ci=Math.cos(d.inc),si=Math.sin(d.inc),y1=oy*ci,z1=oy*si,ca=Math.cos(d.asc),sa=Math.sin(d.asc);return{dx:ox*ca-y1*sa,dy:ox*sa+y1*ca,depth:r>0?z1/r:0};}
+  function draw(time){ctx.clearRect(0,0,width,height);var c=cols();for(var k=0;k<dots.length;k++){var d=dots[k],x=d.bx,y=d.by,depth=0;if(!reduce&&d.a>0){var o=orbit(d,time);x+=o.dx;y+=o.dy;depth=o.depth;}var t=d.a;if(t>0){var ds=1+depth*0.4,radius=Math.max(0.5,(DOT_RADIUS+t*1.5)*ds),alpha=Math.min(1,0.3+t*0.7*(0.65+0.35*((depth+1)/2)));ctx.beginPath();ctx.arc(x,y,radius,0,Math.PI*2);ctx.fillStyle=c.glow;ctx.globalAlpha=alpha;ctx.fill();}else{ctx.beginPath();ctx.arc(x,y,DOT_RADIUS,0,Math.PI*2);ctx.fillStyle=c.base;ctx.globalAlpha=1;ctx.fill();}}ctx.globalAlpha=1;}
+  function loop(ts){if(last===null)last=ts;var dt=Math.min(0.05,(ts-last)/1000);last=ts;step(dt);draw(ts/1000);requestAnimationFrame(loop);}
+  function stat(){for(var k=0;k<dots.length;k++){var d=dots[k],dx=d.bx-mouse.x,dy=d.by-mouse.y,dist=Math.sqrt(dx*dx+dy*dy),prox=dist<IMPACT_RADIUS?1-dist/IMPACT_RADIUS:0;d.a=prox*prox;}draw(0);}
+  function move(x,y){mouse.x=x;mouse.y=y;if(reduce)stat();}
+  window.addEventListener("resize",resize);
+  window.addEventListener("mousemove",function(e){move(e.clientX,e.clientY);});
+  window.addEventListener("mouseleave",function(){move(-9999,-9999);});
+  window.addEventListener("touchmove",function(e){if(e.touches&&e.touches[0])move(e.touches[0].clientX,e.touches[0].clientY);},{passive:true});
+  window.addEventListener("touchend",function(){move(-9999,-9999);});
+  new MutationObserver(function(){if(reduce)stat();}).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+  resize();if(!reduce)requestAnimationFrame(loop);
+})();
+
+/* ---------------- scroll-reveal (sections) ---------------- */
+(function(){
+  var reduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var targets=document.querySelectorAll(".reveal");
+  if(reduce||!("IntersectionObserver" in window)){targets.forEach(function(el){el.classList.add("is-visible");});return;}
+  var obs=new IntersectionObserver(function(en){en.forEach(function(e){if(e.isIntersecting){e.target.classList.add("is-visible");obs.unobserve(e.target);}});},{threshold:.12,rootMargin:"0px 0px -60px 0px"});
+  targets.forEach(function(el){obs.observe(el);});
+})();
+
+/* ---------------- About: scroll illumination ---------------- */
+(function(){
+  var illum=document.querySelector('.illum');if(!illum)return;
+  var reduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var words=illum.textContent.trim().split(/\s+/);
+  illum.innerHTML=words.map(function(w){return '<span>'+w+'</span>';}).join(' ');
+  var spans=illum.querySelectorAll('span');
+  if(reduce){spans.forEach(function(s){s.style.opacity=1;});return;}
+  var ticking=false;
+  function light(){
+    var vh=window.innerHeight,start=vh*0.85,end=vh*0.42;
+    for(var i=0;i<spans.length;i++){var r=spans[i].getBoundingClientRect(),y=r.top+r.height/2,o;
+      if(y>=start)o=0.09;else if(y<=end)o=1;else o=0.09+0.91*((start-y)/(start-end));
+      spans[i].style.opacity=o.toFixed(3);}
+    ticking=false;
+  }
+  window.addEventListener('scroll',function(){if(!ticking){requestAnimationFrame(light);ticking=true;}},{passive:true});
+  window.addEventListener('resize',light);light();
+})();
+
+/* ---------------- scroll cue fade ---------------- */
+(function(){var cue=document.getElementById('scrollCue');if(!cue)return;
+  window.addEventListener('scroll',function(){cue.style.opacity=window.scrollY>60?'0':'1';},{passive:true});})();
+
+/* ---------------- theme ---------------- */
+(function(){
+  var root=document.documentElement,bar=document.getElementById('theme');
+  function auto(){var h=new Date().getHours();return(h>=19||h<7)?'dark':'light';}
+  function set(mode){root.setAttribute('data-theme',mode==='auto'?auto():mode);
+    bar.querySelectorAll('button').forEach(function(b){b.classList.toggle('on',b.dataset.mode===mode);});}
+  bar.addEventListener('click',function(e){var b=e.target.closest('button');if(b)set(b.dataset.mode);});
+  set('dark');
+})();
+
+/* ---------------- veil cleanup ---------------- */
+(function(){var v=document.getElementById('veil');if(v)setTimeout(function(){v.remove();},1800);})();
+</script>
+</body>
+</html>
