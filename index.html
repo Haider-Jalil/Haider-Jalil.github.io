@@ -116,7 +116,8 @@
 
   .about{min-height:100svh;display:flex;align-items:center;padding:90px 0;}
   .about .lead-label{font-family:var(--mono);font-size:12px;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);margin-bottom:26px;}
-  .illum{font-family:var(--serif);font-size:33px;line-height:1.5;font-weight:500;max-width:660px;color:var(--fg);margin:0;}
+  .illum{font-family:var(--serif);font-size:27px;line-height:1.5;font-weight:500;max-width:660px;color:var(--fg);margin:0;}
+  .illum + .illum{margin-top:26px;}
   .illum span{opacity:.09;}
 
   section{padding:30px 0;}
@@ -211,7 +212,7 @@
     .portrait-frame{width:100%;max-width:340px;height:300px;}
     .portrait-label{display:none;}
     .name{font-size:50px;}
-    .illum{font-size:24px;}
+    .illum{font-size:21px;}
     .grid,.refs,.gallery{grid-template-columns:1fr;}
     .nav-links a:not(.persist){display:none;}
     .ctrl{grid-template-columns:90px 1fr 56px;}
@@ -261,7 +262,7 @@
         <div class="eyebrow load-in" style="animation-delay:1.0s">B.S. Mechanical Engineering · New Mexico State University · 3.9 GPA · May 2027</div>
         <h1 class="name load-in" style="animation-delay:1.1s">Haider Jalil</h1>
         <div class="accent-rule load-in" style="animation-delay:1.2s"></div>
-        <p class="tagline load-in" style="animation-delay:1.3s">I'm a mechanical engineering student with a strong interest in the energy industry and the systems that make it work. What draws me to engineering is the space between what a model predicts and what a system actually does — a tension I find most compelling when applied to energy. I'm most engaged when I can take an idea from analysis into physical reality and understand the gap between the two, and I'm positioning myself toward a career where that kind of work is the expectation.</p>
+        <p class="tagline load-in" style="animation-delay:1.3s">Senior mechanical engineering student at NMSU, looking to pursue a career in the energy industry, working across machine design, controls, structural analysis, and field construction.</p>
         <span class="seeking-pill load-in" style="animation-delay:1.4s"><span class="pdot"></span> Seeking a full-time role — energy systems, process optimization &amp; safety</span>
         <div class="hero-sep load-in" style="animation-delay:1.5s"></div>
         <div class="hero-links load-in" style="animation-delay:1.6s">
@@ -277,7 +278,7 @@
   <section id="about" class="about">
     <div>
       <div class="lead-label">About</div>
-      <p class="illum">I'm a mechanical engineer from El Paso, TX, interested in energy engineering and how those industries function. What fascinates me is the difference between what an analysis model predicts and the result a system actually achieves in reality — and the biggest draw for me is applying that analysis outside controlled conditions, when it meets the real world. It's especially interesting to watch an idea translate from analysis into reality and understand the gap between the two. That's why I find the operations side of oil and gas compelling as well — those decisions come from experience of being inside the system. I'm preparing myself for a career where this will be expected of me.</p>
+      <p class="illum">I'm a mechanical engineer from El Paso, Texas, with a strong passion for the energy industry, drawn to the operations side, where analysis meets the real world and rarely behaves exactly like the model predicted. I'm at my best closing that gap: taking a design out of controlled conditions and making it work in the field.</p><p class="illum">That instinct started young. I grew up building and fixing things, and I never really stopped; right now, that's building out my Tacoma for overland trips, chasing good fishing spots, and getting outside whenever I could. Two years coaching wrestling taught me as much about persistence and people as any course has, and you can't do it alone.</p><p class="illum">I speak fluent Arabic, and I care about doing a job right the first time. Five to ten years out, I see myself with an MBA and moving into higher-level management, building the kind of symbiotic relationship where I help the company grow the same way it grows me, into a better engineer and a better person.</p>
     </div>
   </section>
 
@@ -349,7 +350,7 @@ var PROJECTS = [
       ["My role","<p>Project controls and engineering analysis were my responsibilities — creating scheduling systems, coordinating RFIs, and running procurement analysis, while translating engineering drawings into questions and decisions the field could act on.</p>"],
       ["Work","<p>I created an Excel master schedule that <em>automatically</em> generates the mandatory 3- and 8-week look-aheads from a single source sheet, plus the RFI tracker, material-takeoff sheets, and drilling logs that keep field information usable. I learned Primavera P6 to QC the schedule across 250+ line items, analyzed engineering drawings (grouted rock anchors, helical piles, buoy assemblies) and drafted formal RFIs to the design team, and coordinated subcontractor procurement — from mobilization cost and terms to foundation price comparisons.</p>"],
       ["Results","<p>The material-takeoff tool I built became a company-wide standard, contributing to $100K+ in savings, and my automated scheduler removed the tedious work of recreating lookaheads by hand. Across the program I managed cost control and procurement for 50+ vendors on $1.5B+ of federal infrastructure — the kind of problem you solve in theory but have to make work in practice.</p>"]],
-    gallery:[{src:"media/asset14.jpg",cap:"Barrier installation underway — airboats, a barge-mounted excavator, and barrier panels on the water."},{src:"media/asset15.jpg",cap:"The waterborne worksite — an installation barge at work downriver."},{src:"media/asset16.jpg",cap:"Drilling a foundation anchor from the barge — the helical-pile installation I analyzed the drawings and specs for."},{src:"media/asset17.jpg",cap:"Crew guiding an anchor into position during installation."}]},
+    gallery:[{src:"media/asset14.jpg",cap:"Master project schedule built in Primavera P6 — sample/representative data for portfolio use."},{src:"media/asset15.jpg",cap:"Procurement & material tracker I built to manage vendors, costs, and lead times — sample data."},{src:"media/asset16.jpg",cap:"The RGV waterborne barrier in place on the Rio Grande."},{src:"media/asset17.jpg",cap:"Aerial view of the waterborne barrier along the river."}]},
   {id:"rocket",title:"Rocket Engine Test Stand",eyebrow:"Structural Design",ctx:"Atomic Aggies (Crimson Cryos) · NMSU · Fall 2024",widget:null,
     blurb:"The structural design and safety systems for a 500 lbf liquid rocket-engine hot-fire test stand.",
     chips:["SolidWorks FEA","steel structure","load cell","safety systems","500 lbf · FoS 2.6"],
@@ -361,7 +362,7 @@ var PROJECTS = [
 ];
 
 var grid=document.getElementById('grid');
-var THUMB={crane:1,arduino:0,goblet:0,internship:0,rocket:0};
+var THUMB={crane:1,arduino:0,goblet:0,internship:3,rocket:0};
 PROJECTS.forEach(function(p){
   var el=document.createElement('div'); el.className='card';
   var _t=p.gallery[THUMB[p.id]]; var _th=(_t&&_t.src)?'<div class="card-thumb"><img src="'+_t.src+'" alt=""></div>':'';
@@ -526,11 +527,12 @@ function buildArduino(root){
 
 /* About scroll illumination */
 (function(){
-  var illum=document.querySelector('.illum');if(!illum)return;
+  var els=document.querySelectorAll('.illum');if(!els.length)return;
   var reduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var words=illum.textContent.trim().split(/\s+/);
-  illum.innerHTML=words.map(function(w){return '<span>'+w+'</span>';}).join(' ');
-  var spans=illum.querySelectorAll('span');
+  var spans=[];
+  els.forEach(function(el){var words=el.textContent.trim().split(/\s+/);
+    el.innerHTML=words.map(function(w){return '<span>'+w+'</span>';}).join(' ');
+    el.querySelectorAll('span').forEach(function(s){spans.push(s);});});
   if(reduce){spans.forEach(function(s){s.style.opacity=1;});return;}
   var ticking=false;
   function light(){var vh=window.innerHeight,start=vh*0.85,end=vh*0.42;
