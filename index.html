@@ -131,6 +131,9 @@
   .card.in{opacity:1;transform:none;}
   .card-thumb{margin:-22px -22px 16px;height:158px;overflow:hidden;border-bottom:1px solid var(--rule-soft);background:var(--bg);}
   .card-thumb img{width:100%;height:100%;object-fit:cover;display:block;}
+  .card-thumb.contain{background:#fff;}
+  .card-thumb.contain img{object-fit:contain;padding:5px;}
+  .gfig.contain img{object-fit:contain;background:#fff;}
   .card:hover{transform:translateY(-4px);border-color:var(--accent);box-shadow:var(--shadow);}
   .card .badge{position:absolute;top:16px;right:16px;font-family:var(--mono);font-size:9.5px;letter-spacing:.05em;color:var(--accent);background:var(--accent-soft);border-radius:20px;padding:3px 9px;text-transform:uppercase;}
   .card h3{font-family:var(--serif);font-size:22px;font-weight:600;letter-spacing:-.01em;margin:0 6px 4px 0;max-width:24ch;}
@@ -147,6 +150,13 @@
   .ref-name{font-family:var(--serif);font-size:19px;font-weight:600;}
   .ref-rel{color:var(--muted);font-size:13.5px;margin:4px 0 10px;line-height:1.45;}
   .ref-contact{font-family:var(--mono);font-size:12.5px;color:var(--accent);}
+  .ref p{margin:0;color:var(--muted);font-size:13.5px;line-height:1.5;}
+  .timeline{list-style:none;margin:0;padding:0;max-width:720px;}
+  .timeline li{display:grid;grid-template-columns:104px 1fr;gap:18px;padding:14px 0;border-top:1px solid var(--rule-soft);}
+  .timeline li:first-child{border-top:none;}
+  .timeline .tl-date{font-family:var(--mono);font-size:12px;color:var(--accent);padding-top:2px;}
+  .timeline .tl-text{color:var(--muted);font-size:15px;line-height:1.5;}
+  @media(max-width:560px){.timeline li{grid-template-columns:1fr;gap:3px;}}
 
   .contact-links{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:6px;}
   .contact-links a{font-size:15px;color:var(--muted);border-bottom:1px solid var(--rule);padding-bottom:1px;transition:.15s;}
@@ -239,7 +249,8 @@
     <div class="nav-links">
       <a href="#about">About</a>
       <a href="#projects">Work</a>
-      <a href="#references">References</a>
+      <a href="#leadership">Leadership</a>
+      <a href="#news">Milestones</a>
       <a href="#contact">Contact</a>
       <div class="theme" id="theme">
         <button data-mode="auto">AUTO</button>
@@ -287,8 +298,28 @@
     <div class="grid" id="grid"></div>
   </section>
 
+  <section id="leadership" class="reveal">
+    <div class="sec-head"><span class="sec-num">02</span><h2>Leadership &amp; Involvement</h2></div>
+    <div class="refs">
+      <div class="ref"><div class="ref-name">Wrestling Coach</div><div class="ref-rel">El Paso, TX · 2021 – 2023</div><p>Coached and mentored student-athletes in technique, conditioning, and teamwork.</p></div>
+      <div class="ref"><div class="ref-name">Atomic Aggies — Crimson Cryos</div><div class="ref-rel">NMSU · Fall 2024</div><p>High-power rocketry team. Designed the structural test stand for a student-built liquid engine — see the rocket-stand case study.</p></div>
+      <div class="ref"><div class="ref-name">American Society of Mechanical Engineers</div><div class="ref-rel">NMSU</div><p>Active member — professional development, networking, and team-based design.</p></div>
+    </div>
+  </section>
+
+  <section id="news" class="reveal">
+    <div class="sec-head"><span class="sec-num">03</span><h2>Milestones</h2></div>
+    <ol class="timeline">
+      <li><span class="tl-date">Sep 2026</span><span class="tl-text">Began my NMSU senior capstone as project manager and one of the lead engineers on NASA's DRIER project (Dehydration of Reactants for Improved Energy Reliability) — vapor–liquid separators for lunar regenerative fuel-cell energy storage.</span></li>
+      <li><span class="tl-date">Aug 2026</span><span class="tl-text">Joined NMSU's Environmental Testing of Structures Lab as an undergraduate researcher, supporting structural-dynamics testing with Los Alamos &amp; Sandia National Labs.</span></li>
+      <li><span class="tl-date">Jun 2026</span><span class="tl-text">Began a Project Management internship at Spencer Construction on the federal waterborne-barrier program in the Rio Grande Valley.</span></li>
+      <li><span class="tl-date">Fall 2025</span><span class="tl-text">Served as a Teaching Assistant for Dynamics / Engineering Math at NMSU.</span></li>
+      <li><span class="tl-date">Summer 2024</span><span class="tl-text">Completed an Engineering internship at Spencer Construction in Tucson, AZ.</span></li>
+    </ol>
+  </section>
+
   <section id="references" class="reveal">
-    <div class="sec-head"><span class="sec-num">02</span><h2>References</h2></div>
+    <div class="sec-head"><span class="sec-num">04</span><h2>References</h2></div>
     <div class="refs">
       <div class="ref">
         <div class="ref-name">Neal McKennon</div>
@@ -304,7 +335,7 @@
   </section>
 
   <section id="contact" class="contact reveal">
-    <div class="sec-head"><span class="sec-num">03</span><h2>Get in touch</h2></div>
+    <div class="sec-head"><span class="sec-num">05</span><h2>Get in touch</h2></div>
     <p>Open to full-time roles in energy systems, process optimization, and safety. Email is fastest.</p>
     <div class="contact-links">
       <a href="mailto:Haiderjalil1@gmail.com">Haiderjalil1@gmail.com</a>
@@ -320,6 +351,13 @@
 
 <script>
 var PROJECTS = [
+  {id:"nasa",title:"NASA DRIER Capstone",eyebrow:"Senior Capstone · Project Manager & Lead Engineer",ctx:"NMSU · NASA-sponsored · 2026 – 2027",widget:null,
+    blurb:"Project manager and one of the lead engineers on a NASA-sponsored senior capstone designing first-stage vapor–liquid separators for lunar regenerative fuel-cell energy storage.",
+    chips:["project management","systems engineering","CAD","thermofluids","NASA"],
+    tabs:[["Overview","<p>My senior capstone is a NASA-sponsored project. The team is developing DRIER (Dehydration of Reactants for Improved Energy Reliability) — first-stage vapor–liquid separators for a lunar regenerative fuel-cell energy-storage system.</p>"],
+      ["My role","<p>I'm the <em>project manager</em> and one of the lead engineers on the team. Roles are still taking shape this early in the project, but I'm helping steer the design direction and keep the engineering moving.</p>"],
+      ["Focus","<p>The core challenge is separating vapor from liquid reliably in low gravity, where the usual assumptions about how fluids behave no longer hold.</p>"]],
+    gallery:[{src:"media/asset02.jpg",cap:"NASA-sponsored senior capstone project.",fit:"contain"},"Concept / CAD (coming soon)","Separator design detail (coming soon)","Team / build (coming soon)"]},
   {id:"crane",title:"Motorized Lifting Crane",eyebrow:"Machine Design",ctx:"Team project · ME 425 · NMSU",widget:"beam",
     blurb:"A fully autonomous crane built to lift a 2 lb load 12 inches on a $100 budget. My role was the structural analysis.",
     chips:["SolidWorks/CAD","structural analysis","machine design","hand calcs"],
@@ -327,21 +365,21 @@ var PROJECTS = [
       ["My role","<p><em>My role was the engineering analysis</em>, and I was hands-on in the mechanical design. I ran the bending-stress and deflection calculations on the primary beam and worked the supporting calculations across the mechanism — we needed to know the real strength of the materials we had on hand before committing to the build.</p>"],
       ["Design","<p>Derrick-style: a hinged arm on a machined steel base plate, raised by a linear actuator, with an RC winch-and-cable handling the lift and power-screw leveling jacks for uneven ground. The build used nine machine elements against a five-element minimum.</p>"],
       ["Results","<p>The crane met spec — it lifted the full 2 lb load 12 inches with no human contact, and came in under the $100 budget.</p>"]],
-    gallery:[{src:"media/asset02.jpg",cap:"Our first design sketch — rotating cylinder base, winch motor, truss arm, and wire hook."},{src:"media/asset03.jpg",cap:"The finished crane — steel truss arm, linear actuator, winch-and-cable lift, and magnetic leveling feet."},{vid:"media/asset04.mp4",cap:"Cutting the steel parts on the water jet."},{vid:"media/asset05.mp4",cap:"Lifting a 5 lb weight — well beyond the 2 lb design requirement."}]},
+    gallery:[{src:"media/asset03.jpg",cap:"Our first design sketch — rotating cylinder base, winch motor, truss arm, and wire hook."},{src:"media/asset04.jpg",cap:"The finished crane — steel truss arm, linear actuator, winch-and-cable lift, and magnetic leveling feet."},{vid:"media/asset05.mp4",cap:"Cutting the steel parts on the water jet."},{vid:"media/asset06.mp4",cap:"Lifting a 5 lb weight — well beyond the 2 lb design requirement."}]},
   {id:"arduino",title:"Autonomous Inventory Robot",eyebrow:"Controls & Embedded",ctx:"Team project · ME 210 · NMSU",widget:"arduino",
     blurb:"An autonomous line-following robot that counts warehouse inventory. When Bluetooth fell through at the deadline, I pivoted the whole output to a live LED readout.",
     chips:["Arduino","C++","IR line sensors","ultrasonic","LED output"],
     tabs:[["Overview","<p>For our ME 210 design course, the team built an autonomous robot — L.O.G.I.C. (Line-Operated Guide for Inventory Control) — that automates warehouse inventory — cutting the labor cost of manual stock counts. It runs a fixed track (a black tape line, followed by sensors underneath that keep it centered), stops at each station to take an inventory reading, and reports the count in real time to a central readout.</p>"],
       ["My role","<p>I <em>owned the software side</em> — coding the hardware in C++ and integrating the sensors across both hardware and software, so the line sensors, station detection, and output all worked together as one system. I also diagnosed and fixed the core failure mode that had made the robot unusable.</p>"],
       ["Challenge","<p>With no time left, we couldn't get the Bluetooth transmission working — and everything else depended on it. Rather than keep fighting it, I <em>changed strategy completely</em>: I abandoned Bluetooth for a real-time visual output. I built a breadboard circuit wired to the robot, added LEDs, and modified the code so the robot lights up a number of LEDs matching the boxes it detects at each station. Try the demo to see it.</p>"]],
-    gallery:[{src:"media/asset06.jpg",cap:"The robot — Arduino Uno, line-tracking sensor array, ultrasonic sensor, and battery pack."},{vid:"media/asset07.mp4",cap:"The robot running the black-tape track, stopping at each station to take a reading."},{src:"media/asset08.png",cap:"Wiring diagram — the Arduino Uno driving the line tracker, the ultrasonic sensor, and the three-LED box-count display I added."},{src:"media/asset09.jpg",cap:"The team at work in the lab."}]},
+    gallery:[{src:"media/asset07.jpg",cap:"The robot — Arduino Uno, line-tracking sensor array, ultrasonic sensor, and battery pack."},{vid:"media/asset08.mp4",cap:"The robot running the black-tape track, stopping at each station to take a reading."},{src:"media/asset09.png",cap:"Wiring diagram — the Arduino Uno driving the line tracker, the ultrasonic sensor, and the three-LED box-count display I added."},{src:"media/asset10.jpg",cap:"The team at work in the lab."}]},
   {id:"goblet",title:"Structural-Dynamics Research",eyebrow:"Research · Vibrations",ctx:"Undergraduate Researcher · NMSU (ETSL) · with Los Alamos & Sandia National Labs",widget:null,
     blurb:"Experimental structural-dynamics testing of additively-manufactured parts — how lattice geometry affects a structure's vibration behavior.",
     chips:["FEA","modal testing","structural dynamics","additive manufacturing","shaker testing"],
     tabs:[["Overview","<p>Structural-dynamics research at NMSU in collaboration with Los Alamos and Sandia National Laboratories, supporting the environmental testing of additively-manufactured components — design, modeling, simulation, and experimental testing to characterize how structures respond in their service environments.</p>"],
       ["My role","<p>I ran experimental tests on a range of structures — the Generic Object for Laboratory Environmental Testing (GOBLET), an additively-manufactured (AM) beam, and the Box Assembly with Removable Component (BARC) — and supported the graduate students with whatever the research demanded day to day. Beyond running the tests, I interpreted the data coming out of the labs and made sure each test ran smoothly from setup through execution.</p>"],
       ["Approach","<p>We paired predictive modeling with physical testing — building finite-element models to predict how each structure should behave, then measuring the real vibration response on the shaker to see how closely they matched. Comparing the two let us examine how geometry, especially in printed lattice structures, affects natural frequencies and mode shapes, and where models and hardware line up or diverge.</p>"]],
-    gallery:[{src:"media/asset10.jpg",cap:"The GOBLET on the shaker table — an aluminum mass on a 3D-printed lattice pedestal, mode-shape datums marked."},{src:"media/asset11.gif",cap:"GOBLET modal FEA — a predicted mode shape I tested against on the shaker (ANSYS)."},{src:"media/asset12.png",cap:"Box Assembly with Removable Component (BARC) — CAD of the test fixture."},{src:"media/asset13.gif",cap:"BARC FEA — Abaqus model of the bracket assembly (rotating view)."}]},
+    gallery:[{src:"media/asset11.jpg",cap:"The GOBLET on the shaker table — an aluminum mass on a 3D-printed lattice pedestal, mode-shape datums marked."},{src:"media/asset12.gif",cap:"GOBLET modal FEA — a predicted mode shape I tested against on the shaker (ANSYS)."},{src:"media/asset13.png",cap:"Box Assembly with Removable Component (BARC) — CAD of the test fixture."},{src:"media/asset14.gif",cap:"BARC FEA — Abaqus model of the bracket assembly (rotating view)."}]},
   {id:"internship",title:"Federal Waterborne Barrier",eyebrow:"Field Engineering · Project Controls",ctx:"Project Management Intern · Spencer Construction · 2026",widget:null,
     blurb:"Project controls and engineering analysis on a ~$1.5B+ federal border-infrastructure program.",
     chips:["Primavera P6","Procore","Excel automation","drawing analysis","procurement"],
@@ -349,7 +387,7 @@ var PROJECTS = [
       ["My role","<p>Project controls and engineering analysis were my responsibilities — creating scheduling systems, coordinating RFIs, and running procurement analysis, while translating engineering drawings into questions and decisions the field could act on.</p>"],
       ["Work","<p>I created an Excel master schedule that <em>automatically</em> generates the mandatory 3- and 8-week look-aheads from a single source sheet, plus the RFI tracker, material-takeoff sheets, and drilling logs that keep field information usable. I learned Primavera P6 to QC the schedule across 250+ line items, analyzed engineering drawings (grouted rock anchors, helical piles, buoy assemblies) and drafted formal RFIs to the design team, and coordinated subcontractor procurement — from mobilization cost and terms to foundation price comparisons.</p>"],
       ["Results","<p>The material-takeoff tool I built became a company-wide standard, contributing to $100K+ in savings, and my automated scheduler removed the tedious work of recreating lookaheads by hand. Across the program I managed cost control and procurement for 50+ vendors on $1.5B+ of federal infrastructure — the kind of problem you solve in theory but have to make work in practice.</p>"]],
-    gallery:[{src:"media/asset14.jpg",cap:"Master project schedule built in Primavera P6 — sample/representative data for portfolio use."},{src:"media/asset15.jpg",cap:"Procurement & material tracker I built to manage vendors, costs, and lead times — sample data."},{src:"media/asset16.jpg",cap:"The RGV waterborne barrier in place on the Rio Grande."},{src:"media/asset17.jpg",cap:"Aerial view of the waterborne barrier along the river."}]},
+    gallery:[{src:"media/asset15.jpg",cap:"Master project schedule built in Primavera P6 — sample/representative data for portfolio use."},{src:"media/asset16.jpg",cap:"Procurement & material tracker I built to manage vendors, costs, and lead times — sample data."},{src:"media/asset17.jpg",cap:"The RGV waterborne barrier in place on the Rio Grande."},{src:"media/asset18.jpg",cap:"Aerial view of the waterborne barrier along the river."}]},
   {id:"rocket",title:"Rocket Engine Test Stand",eyebrow:"Structural Design",ctx:"Atomic Aggies (Crimson Cryos) · NMSU · Fall 2024",widget:null,
     blurb:"The structural design and safety systems for a 500 lbf liquid rocket-engine hot-fire test stand.",
     chips:["SolidWorks FEA","steel structure","load cell","safety systems","500 lbf · FoS 2.6"],
@@ -357,14 +395,14 @@ var PROJECTS = [
       ["My role","<p>I <em>owned the full structural design</em> of the stand and its safety systems: sizing and designing the steel-strut structure, integrating the safety measures that made it safe to operate around during a hot fire, and coordinating with the feed-system team so their plumbing and components mounted cleanly on my structure.</p>"],
       ["Design","<p>The engine mounts to a top plate, bolted and strapped to transmit thrust vertically into the frame through a load cell that measures thrust during the burn. In SolidWorks, I ran FEA to confirm the steel structure could sustain 500 lbf at a minimum factor of safety of ~2.6. For safety, I built in heat protection, blast protection, remote ignition, and pressure relief, so the entire fire could be started and killed from a safe distance.</p>"],
       ["Status","<p>The stand was fully designed and FEA-validated, but the program lost funding before manufacturing, so it was never built or hot-fire tested. The deliverable was a complete, analysis-backed structural and safety design ready for fabrication.</p>"]],
-    gallery:[{src:"media/asset18.jpg",cap:"The test stand in CAD — steel strut-channel frame with the engine mounted at the top plate."},{src:"media/asset19.jpg",cap:"FEA setup in SolidWorks — meshed model with base fixtures (green) and applied thrust load (pink), used to verify the structure at 500 lbf."},{src:"media/asset20.png",cap:"Assembly drawing and bill of materials — strut channels, brackets, steel plate, and the engine assembly."}]}
+    gallery:[{src:"media/asset19.jpg",cap:"The test stand in CAD — steel strut-channel frame with the engine mounted at the top plate."},{src:"media/asset20.jpg",cap:"FEA setup in SolidWorks — meshed model with base fixtures (green) and applied thrust load (pink), used to verify the structure at 500 lbf."},{src:"media/asset21.png",cap:"Assembly drawing and bill of materials — strut channels, brackets, steel plate, and the engine assembly."}]}
 ];
 
 var grid=document.getElementById('grid');
-var THUMB={crane:1,arduino:0,goblet:0,internship:3,rocket:0};
+var THUMB={nasa:0,crane:1,arduino:0,goblet:0,internship:3,rocket:0};
 PROJECTS.forEach(function(p){
   var el=document.createElement('div'); el.className='card';
-  var _t=p.gallery[THUMB[p.id]]; var _th=(_t&&_t.src)?'<div class="card-thumb"><img src="'+_t.src+'" alt=""></div>':'';
+  var _t=p.gallery[THUMB[p.id]]; var _th=(_t&&_t.src)?'<div class="card-thumb'+(_t.fit==="contain"?' contain':'')+'"><img src="'+_t.src+'" alt=""></div>':'';
   el.innerHTML=(p.widget?'<span class="badge">Interactive</span>':'')+_th+
     '<h3>'+p.title+'</h3><p class="ctx">'+p.ctx+'</p><p class="blurb">'+p.blurb+'</p>'+
     '<div class="chips">'+p.chips.map(function(c){return '<span class="chip">'+c+'</span>';}).join('')+'</div>'+
@@ -385,7 +423,7 @@ function openModal(id){
   if(p.widget){tabsHtml+='<button class="tryit" data-i="'+tryIdx+'">▶ Try it</button>';
     panelsHtml+='<div class="panel" data-i="'+tryIdx+'"><div id="widget-slot"></div></div>';}
   var galIdx=p.widget?tryIdx+1:p.tabs.length;
-  var galleryHtml='<div class="panel" data-i="'+galIdx+'"><div class="gallery">'+p.gallery.map(function(g){if(typeof g==='string')return '<div class="gtile">'+g+'</div>';if(g.vid)return '<figure class="gfig"><video src="'+g.vid+'" controls muted loop playsinline preload="metadata"></video><figcaption>'+g.cap+'</figcaption></figure>';return '<figure class="gfig"><img src="'+g.src+'" alt="'+g.cap.replace(/"/g,'&quot;')+'" loading="lazy"><figcaption>'+g.cap+'</figcaption></figure>';}).join('')+'</div></div>';
+  var galleryHtml='<div class="panel" data-i="'+galIdx+'"><div class="gallery">'+p.gallery.map(function(g){if(typeof g==='string')return '<div class="gtile">'+g+'</div>';if(g.vid)return '<figure class="gfig"><video src="'+g.vid+'" controls muted loop playsinline preload="metadata"></video><figcaption>'+g.cap+'</figcaption></figure>';return '<figure class="gfig'+(g.fit==="contain"?' contain':'')+'"><img src="'+g.src+'" alt="'+g.cap.replace(/"/g,'&quot;')+'" loading="lazy"><figcaption>'+g.cap+'</figcaption></figure>';}).join('')+'</div></div>';
   tabsHtml+='<button data-i="'+galIdx+'">Photos</button>';
   modal.innerHTML='<div class="m-head"><button class="m-close" aria-label="Close">&times;</button>'+
     '<div class="m-eyebrow">'+p.eyebrow+'</div><h3>'+p.title+'</h3><div class="m-ctx">'+p.ctx+'</div>'+
