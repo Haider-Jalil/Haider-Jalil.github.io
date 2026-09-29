@@ -114,7 +114,7 @@
   .scroll-cue .chev{animation:cue 1.8s ease-in-out infinite;}
   @keyframes cue{0%,100%{transform:translateY(0);}50%{transform:translateY(5px);}}
 
-  .about{min-height:100svh;display:flex;align-items:center;padding:90px 0;}
+  .about{min-height:auto;display:block;padding:104px 0;}
   .about .lead-label{font-family:var(--mono);font-size:12px;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);margin-bottom:26px;}
   .illum{font-family:var(--serif);font-size:27px;line-height:1.5;font-weight:500;max-width:660px;color:var(--fg);margin:0;}
   .illum + .illum{margin-top:26px;}
@@ -145,13 +145,13 @@
   .card .open .ar{transition:transform .18s;}
   .card:hover .open .ar{transform:translateX(4px);}
 
-  .refs{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .refs{display:grid;grid-template-columns:repeat(auto-fit,minmax(258px,1fr));gap:16px;}
   .ref{background:var(--card);border:1px solid var(--rule-soft);border-radius:12px;padding:18px 20px;}
   .ref-name{font-family:var(--serif);font-size:19px;font-weight:600;}
   .ref-rel{color:var(--muted);font-size:13.5px;margin:4px 0 10px;line-height:1.45;}
   .ref-contact{font-family:var(--mono);font-size:12.5px;color:var(--accent);}
   .ref p{margin:0;color:var(--muted);font-size:13.5px;line-height:1.5;}
-  .timeline{list-style:none;margin:0;padding:0;max-width:720px;}
+  .timeline{list-style:none;margin:0;padding:0;max-width:none;}
   .timeline li{display:grid;grid-template-columns:104px 1fr;gap:18px;padding:14px 0;border-top:1px solid var(--rule-soft);}
   .timeline li:first-child{border-top:none;}
   .timeline .tl-date{font-family:var(--mono);font-size:12px;color:var(--accent);padding-top:2px;}
